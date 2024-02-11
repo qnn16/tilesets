@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Display a map on a webpage</title>
+    <title>Seattle Map of Trails</title>
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
     <link href="https://api.mapbox.com/mapbox-gl-js/v3.1.2/mapbox-gl.css" rel="stylesheet">
     <script src="https://api.mapbox.com/mapbox-gl-js/v3.1.2/mapbox-gl.js"></script>
@@ -20,6 +20,39 @@
         bottom: 0;
         width: 100%;
     }
+
+    #title {
+        position: absolute;
+        top: 0;
+        left: 0;
+        margin-top: 20px;
+        margin-left: 20px;
+        font-family: 'Open Sans', sans-serif;
+        font-size: 25pt;
+        color: white
+    }
+    
+    #subtitle {
+        position: absolute;
+        top: 0;
+        left: 0;
+        margin-top: 70px;
+        margin-left: 20px;
+        font-family: 'Open Sans', sans-serif;
+        font-size: 15pt;
+        color: white
+    }
+
+        #desc {
+        position: absolute;
+        top: 0;
+        height: 180px;
+        margin-top: 120px;
+        margin-left: 20px;
+        width: 250px;
+        color: white;
+        font-family: 'Open Sans', sans-serif;
+    }      
 
     /* layer menu */
     #menu {
@@ -74,6 +107,17 @@
 <body>
     <nav id="menu"></nav>
     <div id="map"></div>
+    <div id="title">
+        Map of Seattle
+    </div>
+    <div id="subtitle">
+        By: NQ Nguyen
+    </div>
+    <div id="desc">
+        This map uses tilesets to display a basemap of Seattle,
+        modified basemap of Seattle, King County Trails,
+        and King County Trails on a modified basemap.
+    </div>
     <script>
         mapboxgl.accessToken = 'pk.eyJ1IjoicW5uIiwiYSI6ImNsc2ZhYjJndjBnbHcyaXBqN2x2MGNqbTgifQ.MZVCJkterWE1ITE1n6BD6A';
         const map = new mapboxgl.Map({
@@ -86,77 +130,77 @@
 
         map.on('load', () => { //simplifying the function statement: arrow with brackets to define a function
 
-        map.addSource('basemap-tiles', {
-            'type': 'raster',
-            'tiles': [
-                'assets/basemap/{z}/{x}/{y}.png'
-            ],
-            'tileSize': 256,
-            'attribution': 'Map tiles designed by NQ</a>'
-        });
+            map.addSource('basemap-tiles', {
+                'type': 'raster',
+                'tiles': [
+                    'assets/basemap/{z}/{x}/{y}.png'
+                ],
+                'tileSize': 256,
+                'attribution': 'Map tiles designed by NQ</a>'
+            });
 
-        map.addSource('trail-tiles', {
-            'type': 'raster',
-            'tiles': [
-                'assets/kc_trails/{z}/{x}/{y}.png'
-            ],
-            'tileSize': 256,
-            'attribution': 'Map tiles designed by NQ</a>'
-        });
+            map.addSource('trail-tiles', {
+                'type': 'raster',
+                'tiles': [
+                    'assets/kc_trails/{z}/{x}/{y}.png'
+                ],
+                'tileSize': 256,
+                'attribution': 'Map tiles designed by NQ</a>'
+            });
 
-        map.addSource('basemap-trail-tiles', {
-            'type': 'raster',
-            'tiles': [
-                'assets/basemap_trails/{z}/{x}/{y}.png'
-            ],
-            'tileSize': 256,
-            'attribution': 'Map tiles designed by NQ</a>'
-        });
+            map.addSource('basemap-trail-tiles', {
+                'type': 'raster',
+                'tiles': [
+                    'assets/basemap_trails/{z}/{x}/{y}.png'
+                ],
+                'tileSize': 256,
+                'attribution': 'Map tiles designed by NQ</a>'
+            });
 
-        map.addLayer({
-            'id': 'basemap',
-            'type': 'raster',
-            'layout': {
-                'visibility': 'none'
-                // Uncomment the line above will hide this map layer at first.
-                // This will be useful when you have multiple layers added to your map.
-            },
-            'source': 'basemap-tiles'
-        });
+            map.addLayer({
+                'id': 'Basemap',
+                'type': 'raster',
+                'layout': {
+                    'visibility': 'none'
+                    // Uncomment the line above will hide this map layer at first.
+                    // This will be useful when you have multiple layers added to your map.
+                },
+                'source': 'basemap-tiles'
+            });
 
-        map.addLayer({
-            'id': 'trails',
-            'type': 'raster',
-            'layout': {
-                'visibility': 'none'
-                // Uncomment the line above will hide this map layer at first.
-                // This will be useful when you have multiple layers added to your map.
-            },
-            'source': 'trail-tiles'
-        });
+            map.addLayer({
+                'id': 'Trails',
+                'type': 'raster',
+                'layout': {
+                    'visibility': 'none'
+                    // Uncomment the line above will hide this map layer at first.
+                    // This will be useful when you have multiple layers added to your map.
+                },
+                'source': 'trail-tiles'
+            });
 
-        map.addLayer({
-            'id': 'basemap_trails',
-            'type': 'raster',
-            'layout': {
-                'visibility': 'none'
-                // Uncomment the line above will hide this map layer at first.
-                // This will be useful when you have multiple layers added to your map.
-            },
-            'source': 'basemap-trail-tiles'
-        });
+            map.addLayer({
+                'id': 'Basemap with Trails',
+                'type': 'raster',
+                'layout': {
+                    'visibility': 'none'
+                    // Uncomment the line above will hide this map layer at first.
+                    // This will be useful when you have multiple layers added to your map.
+                },
+                'source': 'basemap-trail-tiles'
+            });
 
-    });
+        });
 
         // idle screen
         map.on('idle', () => {
             // If these two layers were not added to the map, abort
-            if (!map.getLayer('basemap') || !map.getLayer('trails') || !map.getLayer('basemap_trails')) {
+            if (!map.getLayer('Basemap') || !map.getLayer('Trails') || !map.getLayer('Basemap with Trails')) {
                 return;
             }
             
             // Enumerate ids of the layers.
-            const toggleableLayerIds = ['basemap', 'trails', 'basemap_trails'];
+            const toggleableLayerIds = ['Basemap', 'Trails', 'Basemap with Trails'];
 
             // Set up the corresponding toggle button for each layer.
             for (const id of toggleableLayerIds) {
