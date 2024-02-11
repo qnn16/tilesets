@@ -72,6 +72,7 @@
 
 
 <body>
+    <nav id="menu"></nav>
     <div id="map"></div>
     <script>
         mapboxgl.accessToken = 'pk.eyJ1IjoicW5uIiwiYSI6ImNsc2ZhYjJndjBnbHcyaXBqN2x2MGNqbTgifQ.MZVCJkterWE1ITE1n6BD6A';
@@ -94,26 +95,68 @@
             'attribution': 'Map tiles designed by NQ</a>'
         });
 
+        map.addSource('trail-tiles', {
+            'type': 'raster',
+            'tiles': [
+                'assets/kc_trails/{z}/{x}/{y}.png'
+            ],
+            'tileSize': 256,
+            'attribution': 'Map tiles designed by NQ</a>'
+        });
+
+        map.addSource('basemap-trail-tiles', {
+            'type': 'raster',
+            'tiles': [
+                'assets/basemap_trails/{z}/{x}/{y}.png'
+            ],
+            'tileSize': 256,
+            'attribution': 'Map tiles designed by NQ</a>'
+        });
+
         map.addLayer({
             'id': 'basemap',
             'type': 'raster',
             'layout': {
-                // 'visibility': 'none'
+                'visibility': 'none'
                 // Uncomment the line above will hide this map layer at first.
                 // This will be useful when you have multiple layers added to your map.
             },
             'source': 'basemap-tiles'
         });
 
-/*         // idle screen
+        map.addLayer({
+            'id': 'trails',
+            'type': 'raster',
+            'layout': {
+                'visibility': 'none'
+                // Uncomment the line above will hide this map layer at first.
+                // This will be useful when you have multiple layers added to your map.
+            },
+            'source': 'trail-tiles'
+        });
+
+        map.addLayer({
+            'id': 'basemap_trails',
+            'type': 'raster',
+            'layout': {
+                'visibility': 'none'
+                // Uncomment the line above will hide this map layer at first.
+                // This will be useful when you have multiple layers added to your map.
+            },
+            'source': 'basemap-trail-tiles'
+        });
+
+    });
+
+        // idle screen
         map.on('idle', () => {
-            // If these four layers were not added to the map, abort
-            if (!map.getLayer('basemap') || !map.getLayer('thematic') || !map.getLayer('nature')) {
+            // If these two layers were not added to the map, abort
+            if (!map.getLayer('basemap') || !map.getLayer('trails') || !map.getLayer('basemap_trails')) {
                 return;
             }
             
             // Enumerate ids of the layers.
-            const toggleableLayerIds = ['basemap', 'thematic', 'nature'];
+            const toggleableLayerIds = ['basemap', 'trails', 'basemap_trails'];
 
             // Set up the corresponding toggle button for each layer.
             for (const id of toggleableLayerIds) {
@@ -165,8 +208,7 @@
                 const layers = document.getElementById('menu');
                 layers.appendChild(link);
             }               
-        }); */
-    });
+        });
     </script>
 
 </body>
