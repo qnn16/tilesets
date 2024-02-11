@@ -115,8 +115,9 @@
     </div>
     <div id="desc">
         This map uses tilesets to display a basemap of Seattle,
-        modified basemap of Seattle, King County Trails,
-        and King County Trails on a modified basemap.
+        modified basemap of Seattle, King County Trails, 
+        King County Trails on a modified basemap, 
+        and along with a special map highlighting nature.
     </div>
     <script>
         mapboxgl.accessToken = 'pk.eyJ1IjoicW5uIiwiYSI6ImNsc2ZhYjJndjBnbHcyaXBqN2x2MGNqbTgifQ.MZVCJkterWE1ITE1n6BD6A';
@@ -157,6 +158,15 @@
                 'attribution': 'Map tiles designed by NQ</a>'
             });
 
+            map.addSource('nature-tiles', {
+                'type': 'raster',
+                'tiles': [
+                    'assets/nature/{z}/{x}/{y}.png'
+                ],
+                'tileSize': 256,
+                'attribution': 'Map tiles designed by NQ</a>'
+            });
+
             map.addLayer({
                 'id': 'Basemap',
                 'type': 'raster',
@@ -190,17 +200,28 @@
                 'source': 'basemap-trail-tiles'
             });
 
+            map.addLayer({
+                'id': 'Nature',
+                'type': 'raster',
+                'layout': {
+                    'visibility': 'none'
+                    // Uncomment the line above will hide this map layer at first.
+                    // This will be useful when you have multiple layers added to your map.
+                },
+                'source': 'nature-tiles'
+            });
+
         });
 
         // idle screen
         map.on('idle', () => {
-            // If these two layers were not added to the map, abort
-            if (!map.getLayer('Basemap') || !map.getLayer('Trails') || !map.getLayer('Basemap with Trails')) {
+            // If these four layers were not added to the map, abort
+            if (!map.getLayer('Basemap') || !map.getLayer('Trails') || !map.getLayer('Basemap with Trails') || !map.getLayer('Nature')) {
                 return;
             }
             
             // Enumerate ids of the layers.
-            const toggleableLayerIds = ['Basemap', 'Trails', 'Basemap with Trails'];
+            const toggleableLayerIds = ['Basemap', 'Trails', 'Basemap with Trails', 'Nature'];
 
             // Set up the corresponding toggle button for each layer.
             for (const id of toggleableLayerIds) {
